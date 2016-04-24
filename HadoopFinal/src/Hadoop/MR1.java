@@ -2,11 +2,6 @@ package Hadoop;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -45,13 +40,8 @@ public class MR1 {
 		}
 		
 		public static double getDuration(long pickup, long dropoff) {
-			double temp = ((double)dropoff - (double)pickup); // 60000 will turn convert ms to minutes
-			if(temp != 60000) {
-				temp /= 60000;
-			} else {
-				temp = 0;
-			}
-			return temp;
+			
+			return ((double)dropoff - (double)pickup) / 60000.0; // 60000 will turn convert ms to minutes
 		}
 	}
 	

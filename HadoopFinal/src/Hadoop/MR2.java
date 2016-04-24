@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -16,7 +12,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Reducer.Context;
 
 // HadoopFinal Assignment
 // Author: Gabe Douda & Brad Smith
@@ -53,13 +48,8 @@ public class MR2 {
 	}
 	
 	public static double getDuration(long pickup, long dropoff) {
-		double temp = ((double)dropoff - (double)pickup); // 60000 will turn convert ms to minutes
-		if(temp != 60000) {
-			temp /= 60000;
-		} else {
-			temp = 0;
-		}
-		return temp;
+		
+		return ((double)dropoff - (double)pickup) / 60000.0; // 60000 will turn convert ms to minutes
 	}
 	
 	public static class Reducer2 extends Reducer<Text, TripWritable, Text, TripWritable> {
@@ -78,6 +68,7 @@ public class MR2 {
 		            countMap.put(splitLine[0], Integer.parseInt(splitLine[1]));
 	            }
 	        } catch(Exception e) {
+	        	System.out.println("MR2 error reading count file");
 	        }
 		}
 		
@@ -86,8 +77,9 @@ public class MR2 {
 			throws IOException, InterruptedException {
 				int entries = countMap.get(key.toString());
 
-				double [] yFares = new double [entries];
+				double [] yFares 	= new double [entries];
 				double [][] xValues = new double[entries][3];
+				double [] weights	= new double[entries];
 				
 				int count = 0;
 				for(TripWritable val : values) {
@@ -95,15 +87,18 @@ public class MR2 {
 					xValues[count][0] = val.getDistance();
 					xValues[count][1] = val.getDuration();
 					xValues[count][2] = val.getPassengerCount();
+					weights[count] 	  = 1;
 					count++;
 				}
 				
 				OLSMultipleLinearRegression mlr = new OLSMultipleLinearRegression();
-//				
+				mlr.setNoIntercept(true);
+				
 				mlr.newSampleData(yFares, xValues);
 				// [0] = intercept, [1] = x1(distance), [2] = x2(duration), [3] = x3(passengerCount)
 				double [] estimates = mlr.estimateRegressionParameters();
 				// double [] errors    = mlr.estimateRegressionParametersStandardErrors();
+
 				
 				context.write(key, new TripWritable(estimates[0], estimates[1], estimates[2], estimates[3]));
 		}

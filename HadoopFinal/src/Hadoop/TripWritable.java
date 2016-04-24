@@ -56,7 +56,7 @@ public class TripWritable implements Writable{
 	
 	@Override
 	public String toString(){
-		return "y = " + fare + " + " + distance + "x1 + " + duration + "x2 + " + passengerCount + "x3" ;
+		return "y = " + getFare() + " + " + getDistance() + "x1 + " + getDuration() + "x2 + " + getPassengerCount() + "x3" ;
 	}
 
 	public double getDuration() {
