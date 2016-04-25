@@ -1,4 +1,4 @@
-package Hadoop;
+package regression;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
@@ -15,7 +15,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 // AWS Run Args: Hadoop.Hadoop s3://taxifare435/*.csv s3://taxifare435/Out/
 
-public class Hadoop {
+public class Driver {
 	
 	private final static int NUM_REDUCE_TASKS = 1;
 	private final static String COUNT_PATH_ADDITION = "Count";
@@ -27,7 +27,7 @@ public class Hadoop {
 		
 		Job job1 = Job.getInstance(conf1, "TaxiFareCount");
 		job1.setNumReduceTasks(1); // Needs to be 1 here for a single count file
-		job1.setJarByClass(Hadoop.class);
+		job1.setJarByClass(Driver.class);
 		job1.setMapperClass(MR1.Mapper1.class);
 		job1.setReducerClass(MR1.Reducer1.class);
 		job1.setOutputKeyClass(Text.class);
@@ -44,7 +44,7 @@ public class Hadoop {
 		
 		Job job2 = Job.getInstance(conf2, "TaxiFareLinearRegression");
 		job2.setNumReduceTasks(NUM_REDUCE_TASKS);
-		job2.setJarByClass(Hadoop.class);
+		job2.setJarByClass(Driver.class);
 		job2.setMapperClass(MR2.Mapper2.class);
 		job2.setReducerClass(MR2.Reducer2.class);
 		job2.setOutputKeyClass(Text.class);

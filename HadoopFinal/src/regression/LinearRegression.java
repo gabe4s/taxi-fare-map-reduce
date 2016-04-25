@@ -1,4 +1,4 @@
-package Hadoop;
+package regression;
 
 
 public class LinearRegression {
