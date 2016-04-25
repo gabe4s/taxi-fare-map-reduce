@@ -3,7 +3,7 @@ package Hadoop;
 
 public class LinearRegression {
 
-double[][] V;            // Least squares and var/covar matrix
+double[][] V;           // Least squares and var/covar matrix
 public double[] C;      // Coefficients
 public double[] SEC;    // Std Error of coefficients
 double RYSQ;            // Multiple correlation coefficient

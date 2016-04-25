@@ -34,7 +34,7 @@ public class MR2 {
 				int   rateCode     	  = Integer.parseInt(tokens[7]);
 				double fareAmount     = Double.parseDouble(tokens[12]);
 				
-				if(fareAmount != 0 && distance != 0 && duration != 0 && passengerCount != 0) { // Throw out any zero values
+				if(fareAmount > 0 && fareAmount < 100 && distance > 0 && distance < 50 && duration > 0 && duration < 60 && passengerCount > 0 && passengerCount < 10) { // Throw out any zero values
 					Text writeKey = new Text(Integer.toString(rateCode));
 					TripWritable writeValue = new TripWritable(fareAmount, distance, duration, passengerCount);
 					
@@ -92,7 +92,6 @@ public class MR2 {
 				}
 				
 				OLSMultipleLinearRegression mlr = new OLSMultipleLinearRegression();
-				mlr.setNoIntercept(true);
 				
 				mlr.newSampleData(yFares, xValues);
 				// [0] = intercept, [1] = x1(distance), [2] = x2(duration), [3] = x3(passengerCount)
@@ -103,5 +102,6 @@ public class MR2 {
 				context.write(key, new TripWritable(estimates[0], estimates[1], estimates[2], estimates[3]));
 		}
 	}
+
 	
 }

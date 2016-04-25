@@ -28,7 +28,7 @@ public class MR1 {
 				int   rateCode     	  = Integer.parseInt(tokens[7]);
 				double fareAmount     = Double.parseDouble(tokens[12]);
 				
-				if(fareAmount != 0 && distance != 0 && duration != 0 && passengerCount != 0) { // Throw out any zero values
+				if(fareAmount > 0 && fareAmount < 100 && distance > 0 && distance < 50 && duration > 0 && duration < 60 && passengerCount > 0 && passengerCount < 10) { // Throw out any zero values
 					Text writeKey = new Text(Integer.toString(rateCode));
 					
 					context.write(writeKey, new IntWritable(1));
