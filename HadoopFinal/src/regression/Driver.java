@@ -15,10 +15,16 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class Driver {
 	
-	private final static int NUM_REDUCE_TASKS = 1;
+	private static int NUM_REDUCE_TASKS = 1;
 	private final static String COUNT_PATH_ADDITION = "Count"; // Make sure it is same as constant in count job
 	
 	public static void main(String [] args) throws IOException, ClassNotFoundException, InterruptedException {
+		try {
+			if(args[2] != null && args[2].length() > 0) {
+				NUM_REDUCE_TASKS = Integer.parseInt(args[2]);
+			}
+		} catch (Exception e) {}
+
 		
 		Configuration conf = new Configuration();
 		conf.set("textinputformat.record.delimiter", "\n");

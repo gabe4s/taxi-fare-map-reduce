@@ -13,6 +13,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
+import limits.Limits;
+
 // HadoopFinal Assignment
 // Author: Gabe Douda & Brad Smith
 // Class: CS435
