@@ -7,11 +7,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
-// HadoopFinal Assignment
-// Author: Brad Smith
-// Date: Apr 22, 2016
-// Class: CS200
-// Email: brad.smith.1324@gmail.com
+//HadoopFinal Assignment
+//Author: Gabe Douda & Brad Smith
+//Class: CS435
 
 public class MR1Means {
 	public static class Mapper1 extends Mapper<Object, Text, Text, TripWritable>{
@@ -44,9 +42,8 @@ public class MR1Means {
 		}
 	}
 	public static double getDuration(long pickup, long dropoff) {
-		// duration as minutes
-		double temp = (dropoff - pickup) / 60000;
-		return temp;
+		
+		return ((double)dropoff - (double)pickup) / 60000.0; // 60000 will turn convert ms to minutes
 	}
 	
 	// Calculate means for each variable

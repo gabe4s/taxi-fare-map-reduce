@@ -1,31 +1,34 @@
-package means;
+package rawdata;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.io.Writable;
 
-//HadoopFinal Assignment
-//Author: Gabe Douda & Brad Smith
-//Class: CS435
+// HadoopFinal Assignment
+// Author: Gabe Douda & Brad Smith
+// Class: CS435
 
 public class TripWritable implements Writable{
-	private double fare, distance, duration, passengerCount;
+	private double fare;
+	private double distance;
+	private double duration;
+	private double passengerCount;
 	
 	public TripWritable(){}
 	
 	public TripWritable(double fare, double distance, double duration, double passengerCount){
-		this.setFare          (fare);
-		this.setDistance      (distance);
-		this.setDuration      (duration);
-		this.setPassengerCount(passengerCount);
+		setFare          (fare);
+		setDistance      (distance);
+		setDuration      (duration);
+		setPassengerCount(passengerCount);
 	}
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
-		fare     = in.readDouble();
-		distance = in.readDouble();
-		duration = in.readDouble();
+		fare     	   = in.readDouble();
+		distance 	   = in.readDouble();
+		duration 	   = in.readDouble();
 		passengerCount = in.readDouble();
 	}
 
@@ -38,23 +41,22 @@ public class TripWritable implements Writable{
 	}
 	
 	public void sum(TripWritable t) {
-		fare     += t.getFare();
-		distance += t.getDistance();
-		duration += t.getDuration();
+		fare 		   += t.getFare();
+		distance 	   += t.getDistance();
+		duration 	   += t.getDuration();
 		passengerCount += t.getPassengerCount();
 	}
 	
-	public void average(int ni) {
-		double n = (double) ni;
-		fare     = fare / n;
-		distance = distance / n;
-		duration = duration / n;
-		passengerCount = passengerCount / n;
+	public void average(int n) {
+		fare     	   /= n;
+		distance 	   /= n;
+		duration 	   /= n;
+		passengerCount /= n;
 	}
 	
 	@Override
 	public String toString(){
-		return fare + "\t" + distance + "\t" + duration + "\t" + passengerCount ;
+		return "y = " + getFare() + " + " + getDistance() + "x1 + " + getDuration() + "x2 + " + getPassengerCount() + "x3" ;
 	}
 
 	public double getDuration() {

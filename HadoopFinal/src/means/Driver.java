@@ -8,13 +8,10 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import regression.TripWritable;
 
-// HadoopFinal Assignment
-// Author: Brad Smith
-// Date: Apr 22, 2016
-// Class: CS200
-// Email: brad.smith.1324@gmail.com
+//HadoopFinal Assignment
+//Author: Gabe Douda & Brad Smith
+//Class: CS435
 
 public class Driver {
 	public static void main(String [] args) throws IOException, ClassNotFoundException, InterruptedException {

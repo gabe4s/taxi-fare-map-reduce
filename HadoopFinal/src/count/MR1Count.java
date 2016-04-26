@@ -1,4 +1,4 @@
-package regression;
+package count;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 // Author: Gabe Douda & Brad Smith
 // Class: CS435
 
-public class MR1 {
+public class MR1Count {
 	public static class Mapper1 extends Mapper<Object, Text, Text, IntWritable>{
 		public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
@@ -28,9 +28,16 @@ public class MR1 {
 				int   rateCode     	  = Integer.parseInt(tokens[7]);
 				double fareAmount     = Double.parseDouble(tokens[12]);
 				
-				if(fareAmount > 0 && fareAmount < 100 && distance > 0 && distance < 50 && duration > 0 && duration < 60 && passengerCount > 0 && passengerCount < 10) { // Throw out any zero values
-					Text writeKey = new Text(Integer.toString(rateCode));
+				if( fareAmount > Limits.LOWER_LIMIT_ALL && 
+					fareAmount <= Limits.UPPER_LIMIT_FARE && 
+					distance > Limits.LOWER_LIMIT_ALL && 
+					distance <= Limits.UPPER_LIMIT_DISTANCE && 
+					duration > Limits.LOWER_LIMIT_ALL && 
+					duration <= Limits.UPPER_LIMIT_DURATION && 
+					passengerCount > Limits.LOWER_LIMIT_ALL && 
+					passengerCount <= Limits.UPPER_LIMIT_PASSENGERS) {
 					
+					Text writeKey = new Text(Integer.toString(rateCode));
 					context.write(writeKey, new IntWritable(1));
 				}
 				
