@@ -18,7 +18,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Driver {
 	
 	private final static int NUM_REDUCE_TASKS = 1;
-	private final static String COUNT_PATH_ADDITION = "Count";
 	
 	public static void main(String [] args) throws IOException, ClassNotFoundException, InterruptedException {
 		
@@ -33,7 +32,7 @@ public class Driver {
 		job1.setOutputKeyClass(Text.class);
 		job1.setOutputValueClass(TripWritable.class);
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job1, new Path(args[1] + COUNT_PATH_ADDITION));
+		FileOutputFormat.setOutputPath(job1, new Path(args[1]));
 		job1.waitForCompletion(true);
 		
 	}
